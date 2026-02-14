@@ -667,7 +667,7 @@
       <div class="chainsaw-heart">
         <span>From me to you:</span>  
         All of my attention, care, and affection are wrapped around you. I want you and only you,
-        and I’m so excited to keep learning what a comfortable, healthy relationship feels like—with you.
+        and I’m so excited to keep learning what a comfortable, healthy relationship feels like, with you.
       </div>
     </section>
 
@@ -726,61 +726,86 @@
       }
     });
 
-    // QUESTIONS + PANELS
-    const qInputs = [
-      document.getElementById("q1Input"),
-      document.getElementById("q2Input"),
-      document.getElementById("q3Input"),
-    ];
+   // QUESTIONS + PANELS (with autosave + restore + locking)
 
-    const qButtons = [
-      document.getElementById("q1Reveal"),
-      document.getElementById("q2Reveal"),
-      document.getElementById("q3Reveal"),
-    ];
+const qInputs = [
+  document.getElementById("q1Input"),
+  document.getElementById("q2Input"),
+  document.getElementById("q3Input"),
+];
 
-    const qPanels = [
-      document.getElementById("q1Panel"),
-      document.getElementById("q2Panel"),
-      document.getElementById("q3Panel"),
-    ];
+const qButtons = [
+  document.getElementById("q1Reveal"),
+  document.getElementById("q2Reveal"),
+  document.getElementById("q3Reveal"),
+];
 
-    const progressText = document.getElementById("progressText");
-    const finalPanel = document.getElementById("finalPanel");
-    const yesButton = document.getElementById("yesButton");
-    const noButton = document.getElementById("noButton");
-    const finalNote = document.getElementById("finalNote");
+const qPanels = [
+  document.getElementById("q1Panel"),
+  document.getElementById("q2Panel"),
+  document.getElementById("q3Panel"),
+];
 
-    const heartGif = document.getElementById("heartGif");
-    const rezeGif = document.getElementById("rezeGif");
+const progressText = document.getElementById("progressText");
+const finalPanel = document.getElementById("finalPanel");
+const yesButton = document.getElementById("yesButton");
+const noButton = document.getElementById("noButton");
+const finalNote = document.getElementById("finalNote");
 
-    let unlockedCount = 0;
-    const totalPanels = qPanels.length;
+const heartGif = document.getElementById("heartGif");
+const rezeGif = document.getElementById("rezeGif");
 
-    function updateProgress() {
-      progressText.innerHTML = `Panels unlocked: <span>${unlockedCount} / ${totalPanels}</span>`;
-      if (unlockedCount >= totalPanels) {
-        finalPanel.style.display = "block";
-      }
+let unlockedCount = 0;
+const totalPanels = qPanels.length;
+
+// Restore saved answers + progress
+qInputs.forEach((input, index) => {
+  const savedAnswer = localStorage.getItem(`answer_${index}`);
+  if (savedAnswer !== null) {
+    input.value = savedAnswer;
+    qButtons[index].disabled = savedAnswer.trim().length === 0;
+  }
+
+  input.addEventListener("input", () => {
+    localStorage.setItem(`answer_${index}`, input.value);
+    qButtons[index].disabled = input.value.trim().length === 0;
+  });
+});
+
+const savedUnlocked = localStorage.getItem("unlockedCount");
+if (savedUnlocked) {
+  unlockedCount = parseInt(savedUnlocked, 10);
+  updateProgress();
+
+  for (let i = 0; i < unlockedCount; i++) {
+    qPanels[i].classList.add("slide-in");
+    qInputs[i].disabled = true;
+    qButtons[i].disabled = true;
+  }
+}
+
+function updateProgress() {
+  progressText.innerHTML = `Panels unlocked: <span>${unlockedCount} / ${totalPanels}</span>`;
+  if (unlockedCount >= totalPanels) {
+    finalPanel.style.display = "block";
+  }
+}
+
+qButtons.forEach((button, index) => {
+  button.addEventListener("click", () => {
+    const panel = qPanels[index];
+
+    if (!panel.classList.contains("slide-in")) {
+      panel.classList.add("slide-in");
+      unlockedCount += 1;
+      localStorage.setItem("unlockedCount", unlockedCount);
+      updateProgress();
+
+      qInputs[index].disabled = true;
+      qButtons[index].disabled = true;
     }
-
-    qInputs.forEach((input, index) => {
-      input.addEventListener("input", () => {
-        const hasText = input.value.trim().length > 0;
-        qButtons[index].disabled = !hasText;
-      });
-    });
-
-    qButtons.forEach((button, index) => {
-      button.addEventListener("click", () => {
-        const panel = qPanels[index];
-        if (!panel.classList.contains("slide-in")) {
-          panel.classList.add("slide-in");
-          unlockedCount += 1;
-          updateProgress();
-        }
-      });
-    });
+  });
+});
 
     // YES / NO behavior
     yesButton.addEventListener("click", () => {
@@ -803,6 +828,7 @@
   </script>
 </body>
 </html>
+
 
 
 
