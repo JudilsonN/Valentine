@@ -531,6 +531,10 @@
   <!-- Replace heart.gif and reze.gif with your own files -->
   <img src="beating-heart-gif.gif" alt="Heart" class="heart-gif" id="heartGif" />
 <img src="reze-arc-reze.gif" alt="Reze" class="reze-gif" id="rezeGif" />
+  
+<audio id="bgMusic" loop>
+  <source src="in the sea.mp3" type="audio/mpeg">
+</audio>
 
   <main class="shell">
     <section class="left">
@@ -713,6 +717,13 @@
         passwordError.classList.remove("visible");
         passwordPanel.style.display = "none";
         questionsPanel.style.display = "block";
+
+        const music = document.getElementById("bgMusic");
+        if (music) {
+            music.volume = 0.4;
+            music.play().catch(() => {});
+}
+
       } else {
         passwordError.classList.add("visible");
       }
@@ -828,6 +839,7 @@ qButtons.forEach((button, index) => {
   </script>
 </body>
 </html>
+
 
 
 
