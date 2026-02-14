@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>For You, My Love 🌷</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #0b0b12;
+      --card: #181824;
+      --accent: #ff9ecb;
+      --accent-soft: #ffcfe3;
+      --text-main: #f9f5ff;
+      --text-soft: #d5c9ff;
+      --green: #7ad1b3;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1f1630 0, #05040a 55%, #020108 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .glow-orbit {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.4;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255, 158, 203, 0.18) 0, transparent 55%),
+        radial-gradient(circle at 80% 10%, rgba(122, 209, 179, 0.18) 0, transparent 55%),
+        radial-gradient(circle at 50% 90%, rgba(213, 201, 255, 0.18) 0, transparent 55%);
+      z-index: -1;
+    }
+
+    .card {
+      background: linear-gradient(145deg, rgba(24, 24, 36, 0.96), rgba(12, 12, 20, 0.98));
+      border-radius: 24px;
+      border: 1px solid rgba(255, 158, 203, 0.25);
+      box-shadow:
+        0 0 40px rgba(0, 0, 0, 0.7),
+        0 0 60px rgba(255, 158, 203, 0.15);
+      max-width: 900px;
+      width: 100%;
+      padding: 26px 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (max-width: 720px) {
+      .card {
+        grid-template-columns: 1fr;
+        padding: 22px 18px;
+      }
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0 0, rgba(255, 158, 203, 0.12) 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(122, 209, 179, 0.12) 0, transparent 55%);
+      opacity: 0.7;
+      z-index: -1;
+    }
+
+    .left {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      justify-content: center;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255, 158, 203, 0.12);
+      border: 1px solid rgba(255, 158, 203, 0.4);
+      color: var(--accent-soft);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .tag-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(255, 158, 203, 0.9);
+    }
+
+    h1 {
+      font-size: clamp(26px, 3vw, 32px);
+      line-height: 1.2;
+    }
+
+    h1 span {
+      background: linear-gradient(120deg, #ff9ecb, #ffcfe3, #ffe6f3);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .message-box {
+      margin-top: 6px;
+      padding: 14px 14px 16px;
+      border-radius: 18px;
+      background: radial-gradient(circle at top left, rgba(255, 158, 203, 0.18), transparent 60%),
+                  rgba(10, 10, 18, 0.9);
+      border: 1px solid rgba(255, 158, 203, 0.35);
+      font-size: 14px;
+      line-height: 1.6;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .message-box::before {
+      content: "♡";
+      position: absolute;
+      right: 14px;
+      top: 10px;
+      font-size: 16px;
+      color: rgba(255, 158, 203, 0.7);
+    }
+
+    .message-line {
+      margin-bottom: 6px;
+    }
+
+    .signature {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--accent-soft);
+    }
+
+    .signature span {
+      font-weight: 600;
+      color: #ffe6f3;
+    }
+
+    .meta {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--text-soft);
+      opacity: 0.9;
+    }
+
+    .meta-pill {
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(213, 201, 255, 0.4);
+      background: rgba(12, 12, 20, 0.9);
+    }
+
+    .right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bouquet {
+      width: 100%;
+      max-width: 320px;
+      aspect-ratio: 3 / 4;
+      border-radius: 22px;
+      background: radial-gradient(circle at top, #ffb7d9 0, #ff9ecb 22%, #181824 70%);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 158, 203, 0.7);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.8),
+        0 0 40px rgba(255, 158, 203, 0.35);
+    }
+
+    .bouquet-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 26px;
+    }
+
+    .stem-group {
+      position: relative;
+      width: 70%;
+      max-width: 220px;
+      height: 70%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .stem {
+      position: absolute;
+      bottom: 0;
+      width: 4px;
+      height: 60%;
+      background: linear-gradient(to bottom, #9be3c7, #3f8f6a);
+      border-radius: 999px;
+      box-shadow: 0 0 6px rgba(122, 209, 179, 0.7);
+      transform-origin: bottom center;
+    }
+
+    .stem:nth-child(1) { left: 18%; transform: rotate(-10deg); }
+    .stem:nth-child(2) { left: 32%; transform: rotate(-4deg); }
+    .stem:nth-child(3) { left: 48%; transform: rotate(2deg); }
+    .stem:nth-child(4) { left: 64%; transform: rotate(8deg); }
+    .stem:nth-child(5) { left: 80%; transform: rotate(14deg); }
+
+    .flower {
+      position: absolute;
+      bottom: 55%;
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #ffe6f3 0, #ffcfe3 35%, #ff9ecb 70%, #ff7fb8 100%);
+      box-shadow:
+        0 0 18px rgba(255, 158, 203, 0.9),
+        0 0 32px rgba(255, 158, 203, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .flower::before {
+      content: "";
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #fff7d1 0, #ffd46b 40%, #ffb347 100%);
+      box-shadow: 0 0 10px rgba(255, 212, 107, 0.8);
+    }
+
+    .flower.f1 { left: 10%; transform: translateY(10px) scale(0.9); }
+    .flower.f2 { left: 32%; transform: translateY(-4px) scale(1.05); }
+    .flower.f3 { left: 54%; transform: translateY(-10px) scale(1.15); }
+    .flower.f4 { left: 74%; transform: translateY(-2px) scale(1.02); }
+    .flower.f5 { left: 88%; transform: translateY(12px) scale(0.9); }
+
+    .wrap {
+      position: absolute;
+      bottom: 0;
+      width: 70%;
+      max-width: 220px;
+      height: 40%;
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.4) 0, rgba(255, 255, 255, 0.05) 40%, rgba(0, 0, 0, 0.6) 100%);
+      border-radius: 999px 999px 26px 26px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.02));
+      mix-blend-mode: screen;
+      opacity: 0.9;
+    }
+
+    .ribbon {
+      position: absolute;
+      bottom: 12px;
+      width: 70px;
+      height: 26px;
+      border-radius: 999px;
+      background: linear-gradient(120deg, #ff9ecb, #ffcfe3);
+      box-shadow:
+        0 0 16px rgba(255, 158, 203, 0.9),
+        0 8px 18px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #3b1023;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
+      opacity: 0.8;
+    }
+
+    .sparkle.s1 { top: 18%; left: 18%; }
+    .sparkle.s2 { top: 10%; right: 22%; width: 4px; height: 4px; }
+    .sparkle.s3 { bottom: 18%; left: 12%; width: 5px; height: 5px; }
+    .sparkle.s4 { bottom: 12%; right: 18%; width: 4px; height: 4px; }
+
+    .hint {
+      margin-top: 8px;
+      font-size: 11px;
+      color: rgba(213, 201, 255, 0.8);
+      opacity: 0.9;
+    }
+
+    .hint code {
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 11px;
+      background: rgba(12, 12, 20, 0.9);
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(213, 201, 255, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-orbit"></div>
+
+  <main class="card">
+    <section class="left">
+      <div class="tag">
+        <span class="tag-dot"></span>
+        FOR MY SWEETHEART
+      </div>
+
+      <h1>
+        A little bouquet<br />
+        just for <span>you</span> 🌷
+      </h1>
+
+      <p class="subtitle">
+        If I could, I’d hand you real flowers right now.  
+        Until then, this is my little digital bouquet—made only for you.
+      </p>
+
+      <div class="message-box">
+        <p class="message-line">
+          I’m so excited to grow and flourish with you in a comfortable, healthy relationship.
+        </p>
+        <p class="message-line">
+          You calm me, you make me feel safe, and I’m so grateful for you in more ways than I can ever fit into words.
+        </p>
+        <p class="message-line">
+          All of my love, attention, and care are wrapped around you. I want you and only you.
+        </p>
+        <p class="signature">
+          With all my love,<br />
+          <span>Your handsome boy 🩷</span>
+        </p>
+      </div>
+
+      <div class="meta">
+        <div class="meta-pill">Made just for you</div>
+        <div class="meta-pill">One-of-a-kind bouquet</div>
+      </div>
+
+      <p class="hint">
+        P.S. This page only exists because of you.  
+        <code>&gt; you are my favorite person</code>
+      </p>
+    </section>
+
+    <section class="right">
+      <div class="bouquet">
+        <div class="bouquet-inner">
+          <div class="stem-group">
+            <div class="stem"></div>
+            <div class="stem"></div>
+            <div class="stem"></div>
+            <div class="stem"></div>
+            <div class="stem"></div>
+
+            <div class="flower f1"></div>
+            <div class="flower f2"></div>
+            <div class="flower f3"></div>
+            <div class="flower f4"></div>
+            <div class="flower f5"></div>
+
+            <div class="wrap"></div>
+            <div class="ribbon">FOR YOU</div>
+          </div>
+        </div>
+
+        <div class="sparkle s1"></div>
+        <div class="sparkle s2"></div>
+        <div class="sparkle s3"></div>
+        <div class="sparkle s4"></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
